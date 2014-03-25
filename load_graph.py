@@ -1,4 +1,5 @@
 import graph
+import csv
 
 def load_graph(filename = str()):	
 	#Open File
@@ -9,12 +10,11 @@ def load_graph(filename = str()):
 	md = {}
 	
 	# Read file
-	for line in file:
-		# Remove trailing white spaces and split comma separated values
-		line = line.rstrip()
-		values = line.split(',')
-		g.add_vertex(values[2])
-		md[values[2]] = values[4]
-		
+	reader = csv.reader(file, skipinitialspace=True)
+	for row in reader:
+		g.add_vertex(row[2])
+		md[row[2]] = row[4]
+	
+	
 	return g, md	
 	
