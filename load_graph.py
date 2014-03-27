@@ -2,18 +2,18 @@ import graph
 import csv
 
 def load_graph(filename = str()):	
-	#Open File
+	# open File
 	file = open(filename , 'r')
-	# Define graph object and metadata dict
+	# define graph object
 	g = graph.Graph()
-	# Metadata dict to store Page titles and URLs
+	# metadata stores Page titles and URLs
 	md = {}
 	
-	# Read file
+	# read file
 	reader = csv.reader(file, skipinitialspace=True)
 	for row in reader:
-		g.add_vertex(row[2])
-		md[row[2]] = row[4]
+		g.add_vertex(row[4])
+		md[row[4]] = row[2]
 	
 	
 	return g, md	
