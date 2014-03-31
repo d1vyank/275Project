@@ -12,6 +12,7 @@ def find_edges(g,md):
 			print(key)
 			continue	
 		s = str(html.read())
+		parser.links = []
 		parser.feed(s)
 		for link in parser.links:
 			#Ignore URLs with specified IDs
@@ -20,6 +21,7 @@ def find_edges(g,md):
 			#Ignore javascript
 			elif link[0:10] == 'javascript':
 				continue
+			#Ignore files and scripts	
 			elif link[0:2] == '//':
 				continue		
 			#Handle URLs with relative paths
