@@ -20,8 +20,8 @@ We will add more to this file in the next lecture, but this
 is enough to do the next exercise.
 """
 
-class Graph:
 
+class Graph:
     def __init__(self, V=set(), E=[]):
         """
         Create a graph with a given set of
@@ -57,7 +57,7 @@ class Graph:
 
         for e in E:
             self.add_edge(e)
-        
+
     def add_vertex(self, v):
         """
         Adds a vertex to our graph.
@@ -97,7 +97,7 @@ class Graph:
         if e[0] in self._alist.keys() and e[1] in self._alist.keys():
             self._alist[e[0]].append(e[1])
 
-    def neighbours(self,v):
+    def neighbours(self, v):
         """
         Given a vertex v, return a copy of the list
         of neighbours of v in the graph.
@@ -116,7 +116,7 @@ class Graph:
         if v not in self._alist.keys():
             return []
         else:
-            return list(self._alist[v]) 
+            return list(self._alist[v])
 
     def vertices(self):
         """
@@ -141,12 +141,12 @@ class Graph:
         >>> g.edges()
         [(1, 2), (2, 3)]
         """
-        
+
         edges = []
-        for v,adj in self._alist.items():
+        for v, adj in self._alist.items():
             for u in adj:
-                edges.append((v,u))
-    
+                edges.append((v, u))
+
         return edges
 
     def is_vertex(self, v):
@@ -185,6 +185,7 @@ class Graph:
             return False
         return e[1] in self._alist[e[0]]
 
+
 def is_walk(g, walk):
     """
     g is a graph and w is a list of nodes.
@@ -207,9 +208,9 @@ def is_walk(g, walk):
     >>> is_walk(g, [5])
     False
     """
-    
-    for v in walk: # O(k)
-        if not g.is_vertex(v): # O(1)
+
+    for v in walk:  # O(k)
+        if not g.is_vertex(v):  # O(1)
             return False
 
     if len(walk) == 0:
@@ -218,11 +219,12 @@ def is_walk(g, walk):
     # Note, can reduce the running time of the entire function
     # to O(k) if we implement the method is_edge to run in O(1) time.
     # This is a good exercise to think about.
-    for node in range(0,len(walk)-1): # O(k)
-        if not g.is_edge((walk[node], walk[node+1])): # O(d)
+    for node in range(0, len(walk) - 1):  # O(k)
+        if not g.is_edge((walk[node], walk[node + 1])):  # O(d)
             return False
-        
+
     return True
+
 
 def is_path(g, path):
     """
@@ -239,6 +241,7 @@ def is_path(g, path):
     """
 
     return is_walk(g, path) and len(path) == len(set(path))
+
 
 def search(g, v):
     """
@@ -260,11 +263,11 @@ def search(g, v):
     """
 
     reached = {}
-    stack = [(v,v)]
+    stack = [(v, v)]
     # brief running time analysis:
     # each edge (u,v) will be added and removed from the stack at most once
     while stack:
-        u,w = stack.pop()
+        u, w = stack.pop()
 
         # the block under the if statement will be run at
         # most once per node u and the
@@ -274,7 +277,7 @@ def search(g, v):
             reached[u] = w
 
             for x in g.neighbours(u):
-                stack.append((x,u))
+                stack.append((x, u))
 
     # so, even though there are nested loops the running
     # time will still be linear
