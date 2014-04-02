@@ -14,5 +14,5 @@ def get_page(url):
         print('We failed to reach a server.')
         print('Reason: ', e.reason)
     else:
-        html = open(local_filename)
+        html = open(local_filename, encoding="UTF8")
         return local_filename, html, headers
