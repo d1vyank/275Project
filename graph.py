@@ -129,7 +129,7 @@ class Graph:
         True
         """
 
-        return set(self._alist.keys())
+        return list(self._alist.keys())
 
     def edges(self):
         """

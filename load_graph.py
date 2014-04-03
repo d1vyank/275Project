@@ -15,6 +15,6 @@ def load_graph(filename=str()):
     reader = csv.reader(file, skipinitialspace=True)
     for row in reader:
         g.add_vertex(row[4])
-        md[row[4]] = (row[2], get_icon(row[4]))
+        md[row[4]] = [row[2], get_icon(row[4]), (0, 0)]
 
     return g, md
