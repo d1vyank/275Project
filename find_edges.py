@@ -11,10 +11,17 @@ def find_edges(g, md):
         except:
             print(key)
             continue
-        s = str(html.read())
-        parser.links = []
-        parser.feed(s)
+        try:    
+            s = str(html.read())
+            parser.links = []
+            parser.feed(s)
+        except:
+            print("Invalid HTML file")
+            print(key)
+            continue
         for link in parser.links:
+            if link == '':
+                continue
             #Ignore URLs with specified IDs
             if link[0] == '#':
                 continue

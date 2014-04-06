@@ -1,12 +1,19 @@
 from load_graph import *
 from find_edges import *
 from gui import *
+from get_chrome_history import *
 import sys
 
 DEBUG = True
-FILE_NAME = 'history.csv'
 
 if __name__ == "__main__":
+	try:
+		get_history()
+		FILE_NAME = 'out.csv'
+	except OperationalError:
+		print("Chrome is running.. Using demo history file")
+		FILE_NAME = 'history.csv'	
+	
     g, md = load_graph(FILE_NAME)
     g = find_edges(g, md)
 
