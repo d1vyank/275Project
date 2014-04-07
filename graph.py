@@ -283,3 +283,87 @@ def search(g, v):
     # time will still be linear
 
     return reached
+
+
+# from eClass
+def least_cost_path(graph, start, dest, cost):
+    """
+    Using Dijkstra's algorithm to solve for the least
+    cost path in graph from start vertex to dest vertex.
+    Input variable cost is a function with method signature
+    c = cost(e) where e is an edge from graph.
+
+    >>> graph = Graph({1,2,3,4,5,6}, [(1,2), (1,3), (1,6), (2,1), (2,3), (2,4), (3,1), (3,2), \
+            (3,4), (3,6), (4,2), (4,3), (4,5), (5,4), (5,6), (6,1), (6,3), (6,5)])
+    >>> weights = {(1,2): 7, (1,3):9, (1,6):14, (2,1):7, (2,3):10, (2,4):15, (3,1):9, \
+            (3,2):10, (3,4):11, (3,6):2, (4,2):15, (4,3):11, (4,5):6, (5,4):6, (5,6):9, (6,1):14,\
+            (6,3):2, (6,5):9}
+    >>> cost = lambda e: weights.get(e, float("inf"))
+    >>> least_cost_path(graph, 1,5, cost)
+    [1, 3, 6, 5]
+    """
+    # est_min_cost[v] is our estimate of the lowest cost
+    # from vertex start to vertex v
+    est_min_cost = {}
+
+    # parents[v] is the parent of v in our current
+    # shorest path from start to v
+    parents = {}
+
+    # todo is the set of vertices in our graph which
+    # we have seen but haven't processed yet. This is
+    # the list of vertices we have left "to do"
+    todo = {start}
+
+    est_min_cost[start] = 0
+
+    while todo:
+        current = min(todo, key=lambda x: est_min_cost[x])
+
+        if current == dest:
+            return reconstruct_path(start, dest, parents)
+
+        todo.remove(current)
+
+        for neighbour in graph.neighbours(current):
+            #if neighbour isn't in est_min_cost, that means I haven't seen it before,
+            #which means I should add it to my todo list and initialize my lowest
+            #estimated cost and set it's parent
+            if not neighbour in est_min_cost:
+                todo.add(neighbour)
+                est_min_cost[neighbour] = (est_min_cost[current] + cost((current, neighbour)))
+                parents[neighbour] = current
+            elif est_min_cost[neighbour] > (est_min_cost[current] + cost((current, neighbour))):
+                #If my neighbour isn't new, then I should check if my previous lowest cost path
+                #is worse than a path going through vertex current. If it is, I will update
+                #my cost and record current as my new parent.
+                est_min_cost[neighbour] = (est_min_cost[current] + cost((current, neighbour)))
+                parents[neighbour] = current
+
+    return []
+
+
+# from eClass
+def reconstruct_path(start, dest, parents):
+    """
+    reconstruct_path reconstructs the shortest path from vertex
+    start to vertex dest.
+
+    "parents" is a dictionary which maps each vertex to their
+    respective parent in the lowest cost path from start to that
+    vertex.
+
+    >>> parents = {'l': ' ', 'e': 'l', 'a': 'e', 'h':'a'}
+    >>> reconstruct_path('l', 'h', parents)
+    ['l', 'e', 'a', 'h']
+
+    """
+    current = dest
+    path = [dest]
+
+    while current != start:
+        path.append(parents[current])
+        current = parents[current]
+
+    path.reverse()
+    return path
