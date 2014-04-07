@@ -1,8 +1,10 @@
+import sys
+
 from load_graph import *
 from find_edges import *
 from gui import *
 from get_chrome_history import *
-import sys
+
 
 DEBUG = True
 
@@ -12,8 +14,8 @@ if __name__ == "__main__":
         FILE_NAME = 'out.csv'
     except OperationalError:
         print("Chrome is running.. Using demo history file")
-        FILE_NAME = 'history.csv'	
-	
+        FILE_NAME = 'history.csv'
+
     g, md = load_graph(FILE_NAME)
     g = find_edges(g, md)
 
@@ -29,7 +31,8 @@ if __name__ == "__main__":
         for event in pygame.event.get():
             if event.type == pygame.QUIT or \
                     (event.type == pygame.KEYDOWN and
-                         (event.key == pygame.K_q or event.key == pygame.K_ESCAPE)):
+                         (
+                                 event.key == pygame.K_q or event.key == pygame.K_ESCAPE)):
                 pygame.display.quit()
                 sys.exit()
             # Respond to clicks

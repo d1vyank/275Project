@@ -11,7 +11,7 @@ def find_edges(g, md):
         except:
             print(key)
             continue
-        try:    
+        try:
             s = str(html.read())
             parser.links = []
             parser.feed(s)

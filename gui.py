@@ -1,7 +1,9 @@
 import random
-import pygame
 import math
 import webbrowser
+
+import pygame
+
 
 IMG_WIDTH = 32
 IMG_HEIGHT = IMG_WIDTH
@@ -20,7 +22,8 @@ INFO_PROMPT = "Hover to view link. Click to launch in browser."
 
 
 class Gui:
-    def __init__(self, graph, md, bg_color, line_color, text_color, text_bg_color, text_font_name=None):
+    def __init__(self, graph, md, bg_color, line_color, text_color,
+                 text_bg_color, text_font_name=None):
         super().__init__()
 
         pygame.init()
@@ -60,7 +63,8 @@ class Gui:
             y_start = self._tile_height * (index // self._side_count)
 
             x_pos = x_start + random.randrange(0, self._tile_width - IMG_WIDTH)
-            y_pos = y_start + random.randrange(0, self._tile_height - IMG_HEIGHT)
+            y_pos = y_start + random.randrange(0,
+                                               self._tile_height - IMG_HEIGHT)
             self._md[value][2] = (x_pos, y_pos)
 
     def draw(self):
@@ -120,7 +124,8 @@ class Gui:
         end_y += IMG_HEIGHT / 2
         end = (end_x, end_y)
 
-        pygame.draw.lines(self._screen, self._line_color, False, [start, end], LINE_THICKNESS)
+        pygame.draw.lines(self._screen, self._line_color, False, [start, end],
+                          LINE_THICKNESS)
 
     def draw_hover_vertex(self):
         text = INFO_PROMPT if self._hover_vertex is None else self._hover_vertex
