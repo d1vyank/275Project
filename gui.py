@@ -64,7 +64,7 @@ class Gui:
         self._vertices = graph.vertices()
 
         self._vertices_count = len(self._vertices)
-        self._side_count = math.ceil(math.sqrt(self._vertices_count) + 0.5)
+        self._side_count = math.ceil(math.sqrt(self._vertices_count))
 
         self._tile_width = GRAPH_WIDTH / self._side_count
         self._tile_height = GRAPH_HEIGHT / self._side_count
@@ -74,8 +74,7 @@ class Gui:
             y_start = self._tile_height * (index // self._side_count)
 
             x_pos = x_start + random.randrange(0, self._tile_width - IMG_WIDTH)
-            y_pos = y_start + random.randrange(0,
-                                               self._tile_height - IMG_HEIGHT)
+            y_pos = y_start + random.randrange(0, self._tile_height - IMG_HEIGHT)
             self._set_img_position_for(vertex, (x_pos, y_pos))
 
     def _update_path(self):
@@ -155,27 +154,22 @@ class Gui:
         pygame.display.flip()
 
     def draw_edge(self, edge):
-        start_x, start_y = self._get_img_position_from(edge[0])
-        start_x += IMG_WIDTH / 2
-        start_y += IMG_HEIGHT / 2
-        start = (start_x, start_y)
-
-        end_x, end_y = self._get_img_position_from(edge[1])
-        end_x += IMG_WIDTH / 2
-        end_y += IMG_HEIGHT / 2
-        end = (end_x, end_y)
+        start_x, start_y, end_x, end_y = self._points_for_lines_from_edge(edge)
 
         if edge in self._path or (edge[1], edge[0]) in self._path:  # check the reverse path so colours don't overlap
             color = self._accent_color
         else:
             color = self._line_color
 
-        pygame.draw.aaline(self._screen, color, start, end, self._line_thickness)
-        self._draw_end_point_indicator(start_x, start_y, end_x, end_y)
+        start = (start_x, start_y)
+        end = (end_x, end_y)
 
+        pygame.draw.aaline(self._screen, color, start, end, self._line_thickness)
         pygame.display.flip()
 
-    def _draw_end_point_indicator(self, start_x, start_y, end_x, end_y):
+    def _draw_end_point_indicator(self, edge):
+        start_x, start_y, end_x, end_y = self._points_for_lines_from_edge(edge)
+
         mid_x, mid_y = mid_point(start_x, start_y, end_x, end_y)  # +start *mid +end +-----*-----+
         mid_end_x, mid_end_y = mid_point(mid_x, mid_y, end_x, end_y)  # +start +old_mid *mid +end +-----+--*--+
 
@@ -207,10 +201,28 @@ class Gui:
         for edge in self._edges:
             self.draw_edge(edge)
 
+        for edge in self._edges:  # have to loop again to avoid lines overdrawing the indicators
+            self._draw_end_point_indicator(edge)
+
         for vertex in self._vertices:
             self.draw_vertex(vertex)
 
         self.draw_info_box()
+
+    def _points_for_lines_from_edge(self, edge):
+        pos_start = self._get_img_position_from(edge[0])
+        start_x, start_y = pos_start[0], pos_start[1]
+
+        start_x += IMG_WIDTH / 2
+        start_y += IMG_HEIGHT / 2
+
+        pos_end = self._get_img_position_from(edge[1])
+        end_x, end_y = pos_end[0], pos_end[1]
+
+        end_x += IMG_WIDTH / 2
+        end_y += IMG_HEIGHT / 2
+
+        return start_x, start_y, end_x, end_y
 
     def _get_page_title_from(self, vertex):
         return self._md[vertex][0]
