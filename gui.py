@@ -101,12 +101,6 @@ class Gui:
             self._on_right_click()
 
     def _on_left_click(self):
-        if self._hover_vertex is not None:
-            webbrowser.open_new_tab(self._hover_vertex)
-        else:
-            self._clear_path()
-
-    def _on_right_click(self):
         if self._start_vertex is not None and self._end_vertex is not None:
             self._clear_path()
         if self._hover_vertex is not None:
@@ -117,6 +111,12 @@ class Gui:
                 self._end_vertex = self._hover_vertex
                 self.draw_vertex(self._start_vertex)
                 self._update_path()
+        else:
+            self._clear_path()
+
+    def _on_right_click(self):
+        if self._hover_vertex is not None:
+            webbrowser.open_new_tab(self._hover_vertex)
         else:
             self._clear_path()
 
@@ -171,6 +171,18 @@ class Gui:
             color = self._line_color
 
         pygame.draw.aaline(self._screen, color, start, end, self._line_thickness)
+        self._draw_end_point_indicator(start_x, start_y, end_x, end_y)
+
+        pygame.display.flip()
+
+    def _draw_end_point_indicator(self, start_x, start_y, end_x, end_y):
+        mid_x, mid_y = mid_point(start_x, start_y, end_x, end_y)  # +start *mid +end +-----*-----+
+        mid_end_x, mid_end_y = mid_point(mid_x, mid_y, end_x, end_y)  # +start +old_mid *mid +end +-----+--*--+
+
+        x = round(mid_end_x)
+        y = round(mid_end_y)
+
+        pygame.draw.circle(self._screen, self._accent_color, (x, y), int(self._line_thickness * 2))
         pygame.display.flip()
 
     def draw_info_box(self):
@@ -222,3 +234,9 @@ def vertices_to_edges(vertices):
         edges.append((last, vertex))
         last = vertex
     return edges
+
+
+def mid_point(start_x, start_y, end_x, end_y):
+    mid_x = (start_x + end_x) / 2
+    mid_y = (start_y + end_y) / 2
+    return mid_x, mid_y
