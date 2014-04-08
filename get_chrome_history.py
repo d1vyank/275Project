@@ -15,7 +15,7 @@ SQL_STATEMENT = 'SELECT id, datetime((last_visit_time/1000000)-11644473600, \'un
 
 storage = codecs.open('out.csv', 'w', 'utf-8')
 
-paths = "~/Library/Application Support/Google/Chrome/Default/History"
+paths = "~/.config/google-chrome/Default/History"
 
 
 def get_history():
