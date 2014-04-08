@@ -20,7 +20,7 @@ TOTAL_WIDTH = GRAPH_WIDTH
 TOTAL_HEIGHT = GRAPH_HEIGHT + INFO_HEIGHT
 
 LINE_THICKNESS = 1
-INFO_PROMPT = "Hover: view title; left click: launch link in browser; right click: least cost path."
+INFO_PROMPT = "Hover: view title; left click: least cost path; right click: launch link in browser."
 
 ARROW_LENGTH = 30
 
