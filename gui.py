@@ -20,7 +20,7 @@ TOTAL_WIDTH = GRAPH_WIDTH
 TOTAL_HEIGHT = GRAPH_HEIGHT + INFO_HEIGHT
 
 LINE_THICKNESS = 1
-INFO_PROMPT = "Hover: view link; left click: launch link in browser; right click: least cost path."
+INFO_PROMPT = "Hover: view title; left click: launch link in browser; right click: least cost path."
 
 ARROW_LENGTH = 30
 
@@ -186,7 +186,7 @@ class Gui:
         pygame.display.flip()
 
     def draw_info_box(self):
-        text = INFO_PROMPT if self._hover_vertex is None else self._hover_vertex
+        text = INFO_PROMPT if self._hover_vertex is None else self._get_page_title_from(self._hover_vertex)
 
         text_bg_rect = (0, TOTAL_HEIGHT - INFO_HEIGHT, INFO_WIDTH, INFO_HEIGHT)
         pygame.draw.rect(self._screen, self._text_bg_color, text_bg_rect)
@@ -211,6 +211,9 @@ class Gui:
             self.draw_vertex(vertex)
 
         self.draw_info_box()
+
+    def _get_page_title_from(self, vertex):
+        return self._md[vertex][0]
 
     def _get_img_path_from(self, vertex):
         return self._md[vertex][1]
