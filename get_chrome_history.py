@@ -17,10 +17,14 @@ storage = codecs.open('out.csv', 'w', 'utf-8')
 
 paths = "~/.config/google-chrome/Default/History"
 
-
+"""
+This function queries the sqlite database in which chrome stores history and 
+returns a csv file
+"""
 def get_history():
     path = os.path.expanduser(paths)
     c = sqlite3.connect(path)
+    #Execute query and loop through result set
     for row in c.execute(SQL_STATEMENT):
         url = re.search(pattern, str(row[4]))
         try:
@@ -29,5 +33,6 @@ def get_history():
             urlc = "ERROR"
         if len(urlc) > 120:
             continue
+        #write to csv    
         storage.write(str(row[0]) + "," + str(row[1]) + "," + '\"' + str(
             row[2]) + '\"' + "," + str(row[3]) + "," + row[4] + "\n")

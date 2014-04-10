@@ -3,6 +3,9 @@ import csv
 from get_icon import *
 import graph
 
+"""
+This function reads a CSV history file and loads each URL as a node in the graph
+"""
 
 def load_graph(filename=str()):
     # open File

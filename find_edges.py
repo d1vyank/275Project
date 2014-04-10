@@ -3,15 +3,21 @@ from urllib.parse import urlparse
 from get_page import *
 from htmlparser import *
 
+"""
+This function fetches each url and feeds the html page to the parser. The parser
+looks for hyperlinks within the page. After validating the link, it is added to the graph.
+"""
 
 def find_edges(g, md):
     for key in md.keys():
         try:
             filename, html, headers = get_page(key)
         except:
+            #Print URLs that could not be fetched
             print(key)
             continue
         try:
+        	#Read html file
             s = str(html.read())
             parser.links = []
             parser.feed(s)

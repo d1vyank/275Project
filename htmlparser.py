@@ -1,5 +1,8 @@
 from html.parser import HTMLParser
 
+"""
+We overwrite the HTMLparser to look for hyperlinks and store a list of links on the page
+"""
 
 class MyHTMLParser(HTMLParser):
     links = []

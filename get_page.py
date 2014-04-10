@@ -1,10 +1,11 @@
 import urllib.request
 from urllib.error import URLError, HTTPError
 
-
+"""
+This function fetches URLs using  urllib.
+"""
 def get_page(url):
-    import urllib.request
-
+    #Retrieve page
     try:
         local_filename, headers = urllib.request.urlretrieve(url)
     except HTTPError as e:
