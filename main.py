@@ -18,7 +18,10 @@ if __name__ == "__main__":
 
     g, md = load_graph(FILE_NAME)
     g = find_edges(g, md)
-
+    
+    if g.vertices() == None:
+        print("No webpages in history")
+        sys.exit()
     gui = Gui(g, md)
 
     gui.draw()  # draw once only since the graph does not change
