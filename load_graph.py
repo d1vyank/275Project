@@ -9,7 +9,7 @@ def load_graph(filename=str()):
     file = open(filename, 'r')
     # define graph object
     g = graph.Graph()
-    # metadata stores URL : (Page Title, Icon path)
+    # metadata stores URL : (Page Title, Icon path, Icon position)
     md = {}
 
     # read file
