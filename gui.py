@@ -84,7 +84,7 @@ class Gui:
         # we're making a big square grid, there will be side_count * side_count tiles
         # example: given: 4 vertices; need: 2x2 grid; side_count = ceil(sqrt(4)) = 2
         # example: given: 5 vertices; need: 3x3 grid; side_count = ceil(sqrt(5)) = 3
-        self._side_count = math.ceil(math.sqrt(self._vertices_count))
+        self._side_count = max(1, math.ceil(math.sqrt(self._vertices_count)))  # we don't want side count to be zero
 
         # making tiles for each icon
         self._tile_width = GRAPH_WIDTH / self._side_count
